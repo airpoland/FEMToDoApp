@@ -6,31 +6,55 @@
 
   <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
   
-  <title>Frontend Mentor | Todo app</title>
-
-  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
-  <style>
-    .attribution { font-size: 11px; text-align: center; }
-    .attribution a { color: hsl(228, 45%, 44%); }
-  </style>
+  <title>Todo app</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-  Todo
-
-  <!-- Add dynamic number --> items left
-
-  All
-  Active 
-  Completed
-
-  Clear Completed
-
-  Drag and drop to reorder list
-
-  <div class="attribution">
-    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
-    Coded by <a href="#">Your Name Here</a>.
+  <div class="background-image-dummy-conatiner">
+    <img src="images/bg-desktop-light.jpg" alt="">
   </div>
+  <div class="app-container">
+    <div class="header-container">
+      <h1 class="header-title">Todo</h1>
+      <img class="icon-theme" src="images/icon-moon.svg" alt="">
+    </div>
+    <div class="create-task-group">
+      <input type="checkbox" disabled class="checkbox-round">
+      <input type="text" name="" id="new-task-text" class="new-task-text" value="Create a new todo...">
+    </div>
+
+    <div class="task-group">
+      <div class="task rounded-top-corners">
+        <input type="checkbox" class="checkbox-round">
+        <p class="task-text">this is a sample task</p>
+        <button class="delete-task"></button>
+      </div>
+      <div class="task">
+        <input type="checkbox" class="checkbox-round">
+        <p class="task-text">another task</p>
+        <button class="delete-task"></button>
+      </div>
+      <div class="task">
+        <input type="checkbox" class="checkbox-round">
+        <p class="task-text">yet another one</p>
+        <button class="delete-task"></button>
+      </div>
+    </div>
+    <div class="task-group-footer rounded-bottom-corners">
+      <p class="text-items-left"><span class="no-of-items-left">3</span> items left</p>
+      <button class="button-clear-completed">Clear Completed</button>
+    </div>
+    
+    <div class="filters">
+      <button class="clear-button-styling button-filter button-filter-selected">All</button>
+      <button class="clear-button-styling button-filter">Active</button>
+      <button class="clear-button-styling button-filter">Completed</button>
+    </div> 
+    <p class="footer-text">Drag and drop to reorder list</p>
+  </div>  
+  <script src="main.js"></script>
 </body>
 </html>
