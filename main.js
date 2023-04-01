@@ -11,19 +11,23 @@ class Task{
         this.isFinished = false;
     }
 
-    getTaskHTML(){
-        return `<div class="task" data-id="${this.taskID}">
-        <input type="checkbox" class="checkbox-round">
-        <p class="task-text">${this.taskText}</p>
-        <button class="delete-task"></button>
-        </div>`;    
-    }
+    // getTaskHTML(){
+    //     return `<div class="task" data-id="${this.taskID}" >
+    //     <input type="checkbox" class="checkbox-round">
+    //     <p class="task-text">${this.taskText}</p>
+    //     <button class="delete-task"></button>
+    //     </div>`;    
+    // }
 
 }
 
 let lastId = 1
 let taskList = [];
 
+const pFooterElement = document.querySelector(".text-items-left");
+const taskGroupFooterElement = document.querySelector(".task-group-footer")
+const filterHTMLElement = document.createElement("div");
+initiateState()
 
 const themeIconImg = document.querySelector(".icon-theme")
 const newTaskInputText = document.querySelector("#new-task-text")
@@ -33,7 +37,7 @@ const itemsLeftElement = document.querySelector(".no-of-items-left")
 const clearCompletedButton = document.querySelector(".button-clear-completed")
 const filterButtons = document.querySelectorAll(".button-filter")
 const filtersContainerElement = document.querySelector(".filters")
-
+const mediaQuery = window.matchMedia('(min-width: 780px)');
 
 
 const defaultToDoText = "Create a new todo..."
@@ -56,6 +60,22 @@ function populateDummyTasks(){
 }
 
 populateDummyTasks()
+
+
+function initiateState(){
+    filterHTMLElement.classList.add("filters");
+    filterHTMLElement.innerHTML = `<button class="clear-button-styling button-filter button-filter-selected">All</button>
+    <button class="clear-button-styling button-filter">Active</button>
+    <button class="clear-button-styling button-filter">Completed</button>`;
+
+    if(window.screen.width >= 780)
+    {
+        pFooterElement.after(filterHTMLElement) 
+    }
+    else{
+        taskGroupFooterElement.after(filterHTMLElement) 
+    }
+}
 
 filtersContainerElement.addEventListener("click", (event) =>{
     if(event.target.classList.contains("button-filter-selected"))
@@ -89,12 +109,22 @@ function deactivateActiveFilter(){
 }
 
 themeIconImg.addEventListener("click", (event)=>{
-    console.log("TO DO: theme toggle button")
     document.documentElement.classList.toggle("light-theme")
     document.documentElement.classList.toggle("dark-theme")
-    // console.log(newTaskInputText)
-    // toggleTheme();
 })
+
+mediaQuery.addEventListener("change", event => {
+    console.log("HIT!")
+    if(window.innerWidth >= 780)
+    {
+        filterHTMLElement.remove();
+        pFooterElement.after(filterHTMLElement) 
+    }
+    else{
+        filterHTMLElement.remove();
+        taskGroupFooterElement.after(filterHTMLElement) 
+    }
+}) 
 
 clearCompletedButton.addEventListener("click",(event)=>{
     removeTasksFromDOM("COMPLETED");
@@ -129,6 +159,7 @@ function addTask(taskText, id){
     const tempTask = document.createElement("div")
     tempTask.dataset.id = id;
     tempTask.classList.add("task")
+    tempTask.setAttribute("draggable", "true")
     tempTask.innerHTML = `<input type="checkbox" class="checkbox-round">
     <p class="task-text">${taskText}</p>
     <button class="delete-task"></button>`
@@ -153,7 +184,6 @@ taskGroupElement.addEventListener("click", (event)=>{
         removeCompletedTaskFromTaskList(event.target.parentElement.dataset.id)
         event.target.parentElement.remove();  
         updateItemsLeft();
-        console.log(event.target.parentElement.dataset.id)
     }
         
 })
@@ -180,3 +210,31 @@ function removeTasksFromDOM(type){
 function removeCompletedTaskFromTaskList(id){
     taskList = taskList.filter(task => {return task.taskID !== Number(id)})
 }
+
+
+
+//DEBUG THIS!!!
+let dragSrc;
+
+taskGroupElement.childNodes.forEach((node) => {
+    node.addEventListener("dragstart", event =>{
+        event.target.style.opacity="0.5";
+        dragSrc = this;
+        event.dataTransfer.effectAllowed = "move";
+        event.dataTransfer.setData("text/html", this.innerHTML)
+    })
+
+    node.addEventListener("dragend", event =>{
+        event.target.style.opacity="1";
+    })
+
+    node.addEventListener('drop',event => {
+        event.stopPropagation(); // stops the browser from redirecting.
+        if (dragSrc !== this) {
+            dragSrc.innerHTML = this.innerHTML;
+            this.innerHTML = event.dataTransfer.getData('text/html');
+        }
+        
+        return false;
+    })
+})

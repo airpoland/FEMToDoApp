@@ -9,60 +9,29 @@
 /* ### Primary */
 --bright-blue: hsl(220, 98%, 61%);
 --check-background: linear-gradient(140deg, hsl(192, 100%, 67%) 0%, hsl(280, 87%, 65%) 100%);
-
-/* ### Light Theme */
-/* --very-light-gray: hsl(0, 0%, 98%);
---very-light-grayish-blue: hsl(236, 33%, 92%);
---light-grayish-blue: hsl(233, 11%, 84%);
---dark-grayish-blue: hsl(236, 9%, 61%);
---very-dark-grayish-blue: hsl(235, 19%, 35%);
---white: white; */
-
-/* ### Dark Theme */
-/* --very-dark-blue: hsl(235, 21%, 11%);
---very-dark-desaturated-blue: hsl(235, 24%, 19%);
---light-grayish-blue: hsl(234, 39%, 85%);
---light-grayish-blue-hover: hsl(236, 33%, 92%); 
---dark-grayish-blue: hsl(234, 11%, 52%);
---very-dark-grayish-blue: hsl(233, 14%, 35%);
---very-dark-grayish-blue: hsl(237, 14%, 26%); */
 }
 
 .light-theme{
---very-light-gray: hsl(0, 0%, 98%);
---very-light-grayish-blue: hsl(236, 33%, 92%);
---light-grayish-blue: hsl(233, 11%, 84%);
---dark-grayish-blue: hsl(236, 9%, 61%);
---very-dark-grayish-blue: hsl(235, 19%, 35%);
---white: white;
-
-
 --task-text-color: hsl(235, 19%, 35%);
---new-task-text-color: hsl(235, 19%, 35%);
+--new-task-text-color: hsl(236, 9%, 61%);
 --task-bg-color: white;
 --task-separator:  hsl(234, 39%, 85%);
 --bg-color: hsl(0, 0%, 98%);
---bg-image-mobile: url(images/bg-mobile-light.jpg);
+--bg-image: url(images/bg-mobile-light.jpg);
 --text-color-light: hsl(0, 0%, 98%);
 --theme-icon: url(images/icon-moon.svg);
---filter-btn-color: hsl(234, 11%, 52%);
+--filter-btn-color: hsl(236, 9%, 61%);
 --filter-btn-color-hover:hsl(235, 19%, 35%);
 }
-.dark-theme{
---very-dark-blue: hsl(235, 21%, 11%);
---very-dark-desaturated-blue: hsl(235, 24%, 19%);
---light-grayish-blue: hsl(234, 39%, 85%);
---light-grayish-blue-hover: hsl(236, 33%, 92%); 
---dark-grayish-blue: hsl(234, 11%, 52%);
---very-dark-grayish-blue: hsl(233, 14%, 35%);
---very-dark-grayish-blue: hsl(237, 14%, 26%);
 
+.dark-theme{
+--dark-grayish-blue: hsl(234, 11%, 52%);
 --task-text-color: hsl(234, 39%, 85%);
 --new-task-text-color: hsl(234, 11%, 52%);
 --task-bg-color: hsl(235, 24%, 19%);
 --task-separator:  hsl(233, 14%, 35%);
 --bg-color: hsl(235, 21%, 11%);
---bg-image-mobile: url(images/bg-mobile-dark.jpg);
+--bg-image: url(images/bg-mobile-dark.jpg);
 --text-color-light: hsl(0, 0%, 98%);
 --theme-icon: url(images/icon-sun.svg);
 --filter-btn-color:hsl(234, 11%, 52%);
@@ -76,13 +45,14 @@ body{
     background-color: var(--bg-color);
     display: flex;
     justify-content: center;
-    background-image: var(--bg-image-mobile);
+    background-image: var(--bg-image);
     background-repeat: no-repeat;
     background-size: contain;
     background-position: top;
 }
 
 .app-container {
+    position: relative;
     /* width: 375px; */
     width: clamp(375px, 80%, 800px);
     padding: 3rem 1.5rem;
@@ -193,7 +163,8 @@ body{
     border-bottom-width: 1px;
     border-bottom-style: solid;
     border-bottom-color: var(--task-separator);
-    color: var(--task-text-color)
+    color: var(--task-text-color);
+    cursor: move;
 }
 .task-hide{
     display: none;
@@ -210,7 +181,7 @@ body{
 .cross-out{
     
     text-decoration: line-through;
-    color: var(--dark-grayish-blue);
+    color: var(--filter-btn-color);
 }
 
 .delete-task{
@@ -223,22 +194,20 @@ body{
     background-repeat: no-repeat;
     background-size: 80%;
     background-position: center;
-cursor: pointer;
-    /* border:1px solid red; */
+    cursor: pointer;
     flex-grow: 0;
     flex-shrink: 0;
 }
 
 .task-group-footer{
     position: relative;
-    /* height: 48px; */
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 1rem 1rem;
     margin-bottom: 1rem;
     background-color: var(--task-bg-color);
     font-size: 0.8rem;
-    /* box-shadow: 0px 57px 129px 42px rgba(0,0,0,0.34); */
 }
 
 .task-group-footer::before{
@@ -251,7 +220,7 @@ cursor: pointer;
 }
 
 .text-items-left{
-    color: var(--dark-grayish-blue);
+    color: var(--filter-btn-color);
 }
 
 .button-clear-completed{
@@ -260,23 +229,25 @@ cursor: pointer;
     border: none;
     background-color: transparent;
     font-family: 'Josefin Sans', sans-serif;
-    color: var(--dark-grayish-blue);
+    color: var(--filter-btn-color);
     
 }
 
 .button-clear-completed:hover{
-color: var(--filter-btn-color-hover);
+    color: var(--filter-btn-color-hover);
 }
 
 .filters{
+    /* flex-grow: 2; */
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    
     background-color: var(--task-bg-color);
     padding: 1rem;
     gap: 1rem;
     border-radius: 4px;
-    margin-bottom: 2rem;
+    /* margin-bottom: 2rem; */
 }
 
 .clear-button-styling {
@@ -302,6 +273,26 @@ color: var(--filter-btn-color-hover);
 }
 
 .footer-text{
+    margin-top: 3rem;
     text-align: center;
     color: var(--new-task-text-color)
+}
+
+@media (min-width: 780px) {
+    body{
+        background-size:cover;
+    }
+
+    .light-theme{
+        --bg-image: url(images/bg-desktop-light.jpg);
+        
+    }
+        
+    .dark-theme{
+        --bg-image: url(images/bg-desktop-dark.jpg);
+    }
+    
+    /* .filters {
+        
+    } */
 }
