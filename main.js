@@ -165,6 +165,7 @@ function addTask(taskText, id){
     <button class="delete-task"></button>`
     
     taskGroupElement.appendChild(tempTask)
+    appendDragDrop(tempTask)
 }
 
 taskGroupElement.addEventListener("click", (event)=>{
@@ -214,27 +215,40 @@ function removeCompletedTaskFromTaskList(id){
 
 
 //DEBUG THIS!!!
-let dragSrc;
-
+let dragged = null;
 taskGroupElement.childNodes.forEach((node) => {
+    appendDragDrop(node)
+})
+
+
+
+
+function appendDragDrop(node){
     node.addEventListener("dragstart", event =>{
         event.target.style.opacity="0.5";
-        dragSrc = this;
-        event.dataTransfer.effectAllowed = "move";
-        event.dataTransfer.setData("text/html", this.innerHTML)
+        // event.dataTransfer.setData("text/html", node.dataset.id)
+        dragged = node
+    })
+
+    node.addEventListener("dragover", event => {
+        event.preventDefault();
     })
 
     node.addEventListener("dragend", event =>{
         event.target.style.opacity="1";
     })
 
-    node.addEventListener('drop',event => {
-        event.stopPropagation(); // stops the browser from redirecting.
-        if (dragSrc !== this) {
-            dragSrc.innerHTML = this.innerHTML;
-            this.innerHTML = event.dataTransfer.getData('text/html');
-        }
+    node.addEventListener("drop", event => {
+        // event.preventDefault();
+        let droppingOnElement;
+        if(event.target.parentElement.classList.contains("task-group"))
+            droppingOnElement = event.target
+        else droppingOnElement = event.target.parentElement
         
-        return false;
+        
+        console.log("dragged: ", dragged)
+        console.log("drop on: ", droppingOnElement)
+        taskGroupElement.insertBefore(dragged, droppingOnElement) 
+        // dragged = null
     })
-})
+}
